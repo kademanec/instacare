@@ -14,12 +14,10 @@ import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -166,51 +164,55 @@ public class ChatActivity extends AppCompatActivity {
 
 
         //Retrieving the messege and passing to Messege class-----------------------------------------------
-        firebaseFirestore.collection("Chats").orderBy("timestamp", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+        try {
+            firebaseFirestore.collection("Chats").orderBy("timestamp", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+                @Override
+                public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
 
-                try {
-                    for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
+                    try {
+                        for (DocumentChange doc : documentSnapshots.getDocumentChanges()) {
 
 
-                        if (doc.getType() == DocumentChange.Type.ADDED) {
+                            if (doc.getType() == DocumentChange.Type.ADDED) {
 
-                            Messege messege = doc.getDocument().toObject(Messege.class);
-                            messege_list.add(messege);
+                                Messege messege = doc.getDocument().toObject(Messege.class);
+                                messege_list.add(messege);
 
-                            messegeRecyclerAdapter.notifyDataSetChanged();
-                            try {
-                                if (sound) {
-                                    mediaPlayer = MediaPlayer.create(ChatActivity.this, R.raw.received_message);
-                                    mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
-                                        @Override
-                                        public void onPrepared(MediaPlayer mp) {
-                                            mediaPlayer.start();
-                                        }
-                                    });
-                                    mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-                                        @Override
-                                        public void onCompletion(MediaPlayer mp) {
-                                            mediaPlayer.release();
-                                        }
-                                    });
-                                }else {
-                                    sound=true;
+                                messegeRecyclerAdapter.notifyDataSetChanged();
+                                try {
+                                    if (sound) {
+                                        mediaPlayer = MediaPlayer.create(ChatActivity.this, R.raw.received_message);
+                                        mediaPlayer.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                                            @Override
+                                            public void onPrepared(MediaPlayer mp) {
+                                                mediaPlayer.start();
+                                            }
+                                        });
+                                        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+                                            @Override
+                                            public void onCompletion(MediaPlayer mp) {
+                                                mediaPlayer.release();
+                                            }
+                                        });
+                                    } else {
+                                        sound = true;
+                                    }
+                                } catch (Exception es) {
+
                                 }
-                            }catch (Exception es){
+
+                                msg_list_view.scrollToPosition(messegeRecyclerAdapter.getItemCount() - 1);
 
                             }
-
-                            msg_list_view.scrollToPosition(messegeRecyclerAdapter.getItemCount()-1);
-
                         }
-                    }
-                }catch (Exception ex){
+                    } catch (Exception ex) {
 
+                    }
                 }
-            }
-        });
+            });
+        }catch (Exception e){
+
+        }
 
 
 

@@ -341,6 +341,7 @@ public class AccountSetupActivity extends AppCompatActivity {
         userMap.put("address",user_address);
         userMap.put("locality",user_locality);
         userMap.put("doc_id",user_id);
+        userMap.put("isDoctor","no");
 
 
 

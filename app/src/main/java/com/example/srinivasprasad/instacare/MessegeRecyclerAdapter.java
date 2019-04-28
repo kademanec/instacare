@@ -343,7 +343,13 @@ public class MessegeRecyclerAdapter extends RecyclerView.Adapter<MessegeRecycler
             UserName = mView.findViewById(R.id.msgLeftUserName);
             UserImg = mView.findViewById(R.id.msgLeftcircleImageView);
             UserName.setText(name);
-            Glide.with(context).applyDefaultRequestOptions(placeholderRequest).load(image).thumbnail(Glide.with(context).load(thumb_url)).into(UserImg);
+
+            try {
+                Glide.with(context).applyDefaultRequestOptions(placeholderRequest).load(image).thumbnail(Glide.with(context).load(thumb_url)).into(UserImg);
+            }catch (Exception e){
+
+            }
+
 
 
 

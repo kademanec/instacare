@@ -64,7 +64,12 @@
         <activity
             android:name=".YouTubeActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".AddDetailActivity"></activity>
+        <activity android:name=".AddDetailActivity" />
+        <activity
+            android:name=".ClientChatInterfaceActivity"
+            android:parentActivityName=".HomeActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".PrivateChatActivity"></activity>
     </application>
 
 </manifest>
